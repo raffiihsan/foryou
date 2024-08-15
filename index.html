@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Birthday Card</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
+            color: #333;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: auto;
+            position: relative;
+        }
+        .flower-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('flower-background.png');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            opacity: 0.4;
+            animation: moveFlowers 15s linear infinite;
+        }
+        @keyframes moveFlowers {
+            0% { background-position: center; }
+            50% { background-position: center 50px; }
+            100% { background-position: center; }
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            margin: 20px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            transform: scale(1);
+            border: 5px solid #f39c12;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card h1 {
+            color: #e74c3c;
+            font-size: 2em;
+            margin: 0;
+            font-weight: 700;
+            animation: bounceIn 1s ease;
+            transition: color 0.3s ease;
+        }
+        .card h1:hover {
+            color: #3498db;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .photo-container {
+            margin: 20px 0;
+            position: relative;
+        }
+        .photo-container img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .photo-container img:hover {
+            transform: scale(1.1);
+        }
+        .photo-container .heart {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 2em;
+            color: #e74c3c;
+            animation: pulse 1s infinite;
+            cursor: pointer;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        .photo-container .heart.clicked {
+            color: #f39c12;
+        }
+        .card-footer {
+            font-size: 1em;
+            color: #888;
+            margin-top: 20px;
+        }
+        .card-footer span {
+            font-weight: 700;
+            color: #e74c3c;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .card-footer span:hover {
+            color: #3498db;
+        }
+        .icon {
+            font-size: 2em;
+            color: #f39c12;
+            margin: 10px;
+            animation: heartBeat 1.5s ease-in-out infinite;
+        }
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Elemen Kue Ulang Tahun */
+        .cake-icon {
+            font-size: 4em;
+            color: #f39c12;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .cake-icon:hover {
+            transform: scale(1.2);
+        }
+        .cake-text {
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 10px;
+            transition: color 0.3s ease;
+        }
+        .cake-text:hover {
+            color: #e74c3c;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -2;
+        }
+        .confetti span {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #e74c3c;
+            opacity: 0.8;
+            animation: fall 3s infinite ease-in-out;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100%) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+        .confetti span:nth-child(2) { left: 20%; animation-delay: 0.2s; }
+        .confetti span:nth-child(3) { left: 40%; animation-delay: 0.4s; background-color: #f1c40f; }
+        .confetti span:nth-child(4) { left: 60%; animation-delay: 0.6s; background-color: #3498db; }
+        .confetti span:nth-child(5) { left: 80%; animation-delay: 0.8s; background-color: #2ecc71; }
+
+        /* Button Interaktif */
+        .play-music {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .play-music:hover {
+            background-color: #c0392b;
+        }
+        .play-music:focus {
+            outline: none;
+        }
+
+        /* Popup Styles */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 9999;
+            text-align: center;
+        }
+        .popup h2 {
+            margin-top: 0;
+            color: #e74c3c;
+        }
+        .popup button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .popup button:hover {
+            background-color: #c0392b;
+        }
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #e74c3c;
+        }
+
+        /* Overlay Styles */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 9998;
+        }
+    </style>
+</head>
+<body>
+    <div class="flower-bg"></div>
+    <div class="card">
+        <div class="confetti">
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <h1>Happy Birthday!</h1>
+        <p>May your day be filled with sweet moments, fun memories, and lots of love. Enjoy every second of it!</p>
+        
+        <div class="photo-container">
+            <img src="image/elsen.jpg" alt="Birthday Person">
+            <i class="fas fa-heart heart" onclick="toggleHeart(this)"></i>
+        </div>
+
+        <div class="cake-icon" onclick="showCakeMessage()">
+            🎂
+        </div>
+        <p class="cake-text">Click the cake to get a sweet message!</p>
+
+        <div class="card-footer">
+            <p>for the happy ones, <span onclick="displayMessage()"><u>Ellsen</u></span></p>
+        </div>
+        <button class="play-music" onclick="openPopup()">Play Birthday Song</button>
+    </div>
+
+    <div class="popup" id="musicPopup">
+        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <h2>Ready to Celebrate?</h2>
+        <p>Click below to play a birthday song and make the moment even more special!</p>
+        <button onclick="playMusic()">Play Music</button>
+    </div>
+    <div class="overlay" id="overlay" onclick="closePopup()"></div>
+
+    <audio id="birthday-music">
+        <source src="happy-birthday-lofi-version-222774.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        function playMusic() {
+            var music = document.getElementById("birthday-music");
+            music.play();
+            closePopup();
+        }
+
+        function displayMessage() {
+            alert('Best wishes from Ellsen! 🎉');
+        }
+
+        function toggleHeart(element) {
+            element.classList.toggle('clicked');
+        }
+
+        function showCakeMessage() {
+            alert('Have a sweet and delightful birthday! 🎂');
+        }
+
+        function openPopup() {
+            document.getElementById("musicPopup").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("musicPopup").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+</body>
+</html>
